@@ -1,0 +1,8 @@
+{
+    "name": "zhost/oyjz",
+    "description": "zhost api",
+    "type": "library",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {}
+}
