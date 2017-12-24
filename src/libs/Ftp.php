@@ -2,23 +2,22 @@
 
 namespace zhost\libs;
 
-$config = [
-    'host'     => '43.226.43.6',
-    'port'     => '21',
-    'username' => 'host705114622',
-    'password' => '506I0488ee',
-];
-
-$ftp = new Ftp($config);
-$res = $ftp->size('/wwwroot/1.php');
-var_dump($res);
-$res = $ftp->get('1.php','/wwwroot/1.asp');
-var_dump($res);
-
 class Ftp
 {
     private $connection;
 
+    /**
+     * Ftp constructor.
+     *
+     * @param $config
+     *
+     * $config = [
+     *     'host'     => '127.0.0.1',
+     *     'port'     => '21',
+     *     'username' => 'ftp_username',
+     *     'password' => 'ftp_password',
+     * ];
+     */
     public function __construct($config)
     {
         $this->connect($config);
@@ -124,6 +123,44 @@ class Ftp
             return $this->response(-1, 'the file download failed.');
         }
     }
+
+    public function put($local, $remote)
+    {
+
+        // mkdir
+        $this->mkdir(dirname($remote));
+
+        // upload
+        $result = @ftp_put($this->connection, $remote, $local, FTP_BINARY);
+
+        // result
+        if ($result) {
+            return $this->response(0, 'the file upload success.');
+        } else {
+            return $this->response(-1, 'the file upload failed.');
+        }
+    }
+
+    public function mkdir($dirPath)
+    {
+        //处理目录
+        $dirPath = '/' . trim($dirPath, '/');
+        $dirPath = explode('/', $dirPath);
+        foreach ($dirPath as $dir) {
+            if ($dir == '') {
+                $dir = '/';
+            }
+            //判断目录是否存在
+            if (@ftp_chdir($this->connection, $dir) == false) {
+                //判断目录是否创建成功
+                if (@ftp_mkdir($this->connection, $dir) == false) {
+                    return $this->response(-1, 'the file download success.');
+                }
+                @ftp_chdir($this->connection, $dir);
+            }
+        }
+    }
+
 
     /**
      * response
