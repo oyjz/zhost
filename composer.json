@@ -1,15 +1,12 @@
 {
-    "name": "oyjz/zhost",
-    "description": "zhost api",
-    "type": "library",
-    "license": "MIT",
-    "minimum-stability": "dev",
-    "require": {
-        "php": ">=7.0"
-    },
-    "autoload" : {
-	"psr-4" : {
-	    "zhost\\" : "src"
-	}
+    "name":"oyjz/zhost",
+    "description":"zhost api",
+    "type":"library",
+    "license":"MIT",
+    "minimum-stability":"dev",
+    "autoload":{
+        "psr-4":{
+            "zhost\\":"src"
+        }
     }
 }
